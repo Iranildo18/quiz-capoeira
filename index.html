@@ -1,0 +1,100 @@
+Quiz capoeira.
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz de Capoeira</title>
+    <style>
+        body { font-family: Arial; background-color: #f0f8ff; margin: 20px; }
+        h1 { color: #333366; font-size: 28px; }
+        .question { margin-bottom: 20px; }
+        button { 
+            background-color: #4CAF50; 
+            color: white; 
+            padding: 10px; 
+            border: none; 
+            margin: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+        }
+        button:hover { background-color: #45a049; }
+        #feedback { font-weight: bold; font-size: 18px; margin-top: 10px; }
+        #nextBtn { display: none; margin-top: 15px; background-color: #333366; }
+    </style>
+</head>
+<body>
+    <h1>Quiz de Capoeira</h1>
+    <div id="quiz"></div>
+    <p id="feedback"></p>
+    <button id="nextBtn" onclick="proximaPergunta()">Próxima</button>
+    <p id="score"></p>
+
+    <script>
+        const perguntas = [
+            { q: "Qual é o país de origem da capoeira?", op: ["Brasil","Portugal","Angola"], correta: "Brasil" },
+            { q: "Como se chama o círculo formado pelos praticantes durante o jogo de capoeira?", op: ["Roda","Círculo mágico","Arena"], correta: "Roda" },
+            { q: "Qual é o principal instrumento musical usado na capoeira?", op: ["Berimbau","Violão","Pandeiro"], correta: "Berimbau" },
+            { q: "Qual é o estilo de capoeira criado por Mestre Bimba?", op: ["Capoeira Regional","Capoeira Angola","Capoeira Contemporânea"], correta: "Capoeira Regional" },
+            { q: "Qual é o estilo de capoeira associado a Mestre Pastinha?", op: ["Capoeira Angola","Capoeira Regional","Capoeira Moderna"], correta: "Capoeira Angola" },
+            { q: "Qual é o nome da música cantada durante a roda de capoeira?", op: ["Ladainha","Samba","Toada"], correta: "Ladainha" },
+            { q: "Qual é o movimento básico da capoeira?", op: ["Ginga","Chute frontal","Esquiva lateral"], correta: "Ginga" },
+            { q: "Qual destes movimentos é um golpe de capoeira?", op: ["Meia-lua de compasso","Soco direto","Cotovelada"], correta: "Meia-lua de compasso" },
+            { q: "Além de luta, a capoeira também é considerada:", op: ["Uma manifestação cultural","Apenas um esporte competitivo","Uma dança folclórica europeia"], correta: "Uma manifestação cultural" },
+            { q: "Em que ano a capoeira foi reconhecida como patrimônio cultural imaterial do Brasil pelo IPHAN?", op: ["2008","1995","2015"], correta: "2008" }
+        ];
+
+        let indice = 0;
+        let pontos = 0;
+
+        // Função para embaralhar as opções
+        function embaralhar(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function mostrarPergunta() {
+            if (indice < perguntas.length) {
+                const p = perguntas[indice];
+                let opcoesEmbaralhadas = embaralhar([...p.op]); // embaralha as opções
+                let html = `<div class="question"><p>${indice+1}. ${p.q}</p>`;
+                opcoesEmbaralhadas.forEach(opcao => {
+                    html += `<button onclick="verificar('${opcao}')">${opcao}</button>`;
+                });
+                html += `</div>`;
+                document.getElementById("quiz").innerHTML = html;
+                document.getElementById("feedback").innerText = "";
+                document.getElementById("nextBtn").style.display = "none";
+            } else {
+                document.getElementById("quiz").innerHTML = "<p>Fim do quiz!</p>";
+                document.getElementById("score").innerText = `Você acertou ${pontos} de ${perguntas.length} perguntas.`;
+                document.getElementById("nextBtn").style.display = "none";
+            }
+        }
+
+        function verificar(resposta) {
+            const correta = perguntas[indice].correta;
+            if (resposta === correta) {
+                document.getElementById("feedback").innerText = "✅ Correto!";
+                document.getElementById("feedback").style.color = "green";
+                pontos++;
+            } else {
+                document.getElementById("feedback").innerText = "❌ Errado! Você pode tentar de novo.";
+                document.getElementById("feedback").style.color = "red";
+            }
+            document.getElementById("nextBtn").style.display = "inline-block"; 
+        }
+
+        function proximaPergunta() {
+            indice++;
+            mostrarPergunta();
+        }
+
+        // inicia o quiz
+        mostrarPergunta();
+    </script>
+</body>
+</html>
