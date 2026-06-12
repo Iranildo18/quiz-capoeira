@@ -1,36 +1,85 @@
-Quiz capoeira.
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Quiz de Capoeira</title>
+
+    <!-- 🎨 CSS: Estilização da página -->
     <style>
-        body { font-family: Arial; background-color: #f0f8ff; margin: 20px; }
-        h1 { color: #333366; font-size: 28px; }
-        .question { margin-bottom: 20px; }
+        /* Aqui está o CSS */
+        body { 
+            font-family: 'Baloo', Arial, sans-serif; 
+            background: linear-gradient(to bottom, #009739, #FFD700); 
+            margin: 0; 
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        h1 { 
+            color: #FFD700; 
+            font-size: 32px; 
+            text-shadow: 2px 2px #006400;
+            margin-top: 20px;
+        }
+
+        .question { 
+            margin-bottom: 20px; 
+            font-size: 20px;
+        }
+
         button { 
-            background-color: #4CAF50; 
-            color: white; 
-            padding: 10px; 
+            background-color: #FFD700; 
+            color: #009739; 
+            padding: 12px 20px; 
             border: none; 
-            margin: 5px; 
+            margin: 8px; 
             cursor: pointer; 
             font-size: 16px; 
+            border-radius: 10px;
+            transition: 0.3s;
         }
-        button:hover { background-color: #45a049; }
-        #feedback { font-weight: bold; font-size: 18px; margin-top: 10px; }
-        #nextBtn { display: none; margin-top: 15px; background-color: #333366; }
+
+        button:hover { 
+            background-color: #009739; 
+            color: #FFD700; 
+        }
+
+        #feedback { 
+            font-weight: bold; 
+            font-size: 18px; 
+            margin-top: 10px; 
+        }
+
+        #nextBtn { 
+            display: none; 
+            margin-top: 15px; 
+            background-color: #006400; 
+            color: #FFD700;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            text-shadow: 1px 1px black;
+        }
     </style>
 </head>
 <body>
+    <!-- 📄 HTML: Estrutura da página -->
     <h1>Quiz de Capoeira</h1>
     <div id="quiz"></div>
     <p id="feedback"></p>
     <button id="nextBtn" onclick="proximaPergunta()">Próxima</button>
     <p id="score"></p>
 
+    <footer>
+        🎶 • 🥁 • 🇧🇷 Brasil
+    </footer>
+
+    <!-- ⚙️ JavaScript: Lógica do quiz -->
     <script>
+        /* Lista de perguntas e respostas */
         const perguntas = [
             { q: "Qual é o país de origem da capoeira?", op: ["Brasil","Portugal","Angola"], correta: "Brasil" },
             { q: "Como se chama o círculo formado pelos praticantes durante o jogo de capoeira?", op: ["Roda","Círculo mágico","Arena"], correta: "Roda" },
@@ -47,7 +96,7 @@ Quiz capoeira.
         let indice = 0;
         let pontos = 0;
 
-        // Função para embaralhar as opções
+        /* Função para embaralhar opções */
         function embaralhar(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -56,10 +105,11 @@ Quiz capoeira.
             return array;
         }
 
+        /* Mostrar pergunta atual */
         function mostrarPergunta() {
             if (indice < perguntas.length) {
                 const p = perguntas[indice];
-                let opcoesEmbaralhadas = embaralhar([...p.op]); // embaralha as opções
+                let opcoesEmbaralhadas = embaralhar([...p.op]);
                 let html = `<div class="question"><p>${indice+1}. ${p.q}</p>`;
                 opcoesEmbaralhadas.forEach(opcao => {
                     html += `<button onclick="verificar('${opcao}')">${opcao}</button>`;
@@ -75,11 +125,12 @@ Quiz capoeira.
             }
         }
 
+        /* Verificar resposta */
         function verificar(resposta) {
             const correta = perguntas[indice].correta;
             if (resposta === correta) {
                 document.getElementById("feedback").innerText = "✅ Correto!";
-                document.getElementById("feedback").style.color = "green";
+                document.getElementById("feedback").style.color = "lime";
                 pontos++;
             } else {
                 document.getElementById("feedback").innerText = "❌ Errado! Você pode tentar de novo.";
@@ -88,13 +139,16 @@ Quiz capoeira.
             document.getElementById("nextBtn").style.display = "inline-block"; 
         }
 
+        /* Próxima pergunta */
         function proximaPergunta() {
             indice++;
             mostrarPergunta();
         }
 
-        // inicia o quiz
+        /* Inicia o quiz */
         mostrarPergunta();
+
+        /* Alteração: cores atualizadas e emotes adicionados */
     </script>
 </body>
 </html>
